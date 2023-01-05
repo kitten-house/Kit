@@ -4,10 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.kit.backend.auth.entity.Users;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
-import java.security.interfaces.RSAPrivateKey;
 import java.time.Instant;
-import java.util.Date;
 
 public class JWTTokens {
 
@@ -64,18 +64,23 @@ public class JWTTokens {
     private static String PUB = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDHNj5fReiXqlGBZmVh0b/0KtgwxzPx4Q4kBIDh0HwZ0VuIIPF4LJIUPLuqGz1joxXI59sdL57Zs9FAoocYrgd1sxF2ueRnruQiz+BGmsKDeHNkwaOzc6+s9JwBLOJ1g66QxkeqOzErZQ79Wxk0I0d4OPJ6U4Wy/88aZQvoOX854Xx173A6W5LJOXxi49WMVGR91V/Zta9YLdz3TXnr4b9QO8fLzXHaBgg3lf6E+E2gnZmz023kN0wMpbHzMfqRGkaPSBXaJxTapdl2HGobhsvrgnB6sIYHo4hSuB2U7yJcCfB2Rt9kbdosUKnIBzrMSQ1hKWtoIifp4BTDDRRoREdKBbZ9L1S0U/GWhCihTHMl9HRzB57DOiD1EOLdfM/TgWG3xiht+9dVclehZcAm/qOZL0zRqIUM0HXmO2OwXBovvKKAsFWZEL9mExl88tPtuBgS7jXvmVgszjPBDGs5cer4B76GA3Gf16oacP6GhymWOURVksMkOFYeREb0DCYctLBcEyEqNb7sWSI70SC4viDHJfyy3Ui9zMuhL47T7PYZakLq/I1BKwsDJi+8TumOgBKWP7OOTQ93icRa1EyTP5RGC2ntACZ38mJTKtnGv1709fPrA1cPiHtKjopNJJ7MBdi1NeQMpFLYITfekVZbTRF+Umd0RRLkbcbhFzMNkLeyJQ== andrew@MacBook-Pro-Ksenny.local";
     private static String ISSUER = "kit-auth-server";
 
-    private static long ACCESS_LIFETIME = 60 * 15;
+    private static long ACCESS_LIFETIME = 60 * 30;
     private static long REFRESH_LIFETIME = 60 * 60 * 24 * 60;
 
+    private static long VERSION = 1;
 
+
+    @Nullable
     public String accessToken(Users user) {
         try {
             Instant now = Instant.now();
             Instant expired = now.plusSeconds(ACCESS_LIFETIME);
 
+
             Algorithm algorithm = Algorithm.HMAC512(PUB);
             String Acctoken = JWT.create()
                     .withIssuer(ISSUER)
+                    .withClaim("version", VERSION)
                     .withClaim("id", user.getId())
                     .withClaim("name", user.getName())
                     .withClaim("avatar", user.getName())
@@ -84,12 +89,13 @@ public class JWTTokens {
                     .withExpiresAt(expired)
                     .sign(algorithm);
             return Acctoken;
-
         } catch (
                 JWTCreationException exception) {
-            return "kapec";
+            return null;
         }
     }
+
+
     public String refreshToken(Users user) {
         try {
             Instant now = Instant.now();
