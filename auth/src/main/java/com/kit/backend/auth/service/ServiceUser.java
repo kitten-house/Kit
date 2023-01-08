@@ -1,11 +1,8 @@
 package com.kit.backend.auth.service;
 
-import com.kit.backend.auth.controller.AuthController;
-import com.kit.backend.auth.entity.Users;
-import com.kit.backend.auth.model.ForJSON;
-
-import java.util.List;
+import com.kit.backend.auth.entity.User;
+import com.kit.backend.auth.model.LoginRequestBody;
 
 public interface ServiceUser {
-    public Users addUser (ForJSON json);
+    User getOrSave(LoginRequestBody body);
 }
