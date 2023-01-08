@@ -1,25 +1,20 @@
 package com.kit.backend.auth.service;
 
-import com.kit.backend.auth.entity.Users;
 import com.kit.backend.auth.model.ForJSON;
 import com.kit.backend.auth.model.LoginRequestBody;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-
+@Component
 public class GoogleServiceImp implements GoogleService {
 
     private LoginRequestBody body;
     private ForJSON json;
-    private ServiceUser serviceUser;
 
 
     @Override
-    public Users googleRequest(LoginRequestBody body) {
-
+    public ForJSON googleRequest(LoginRequestBody body) {
         RestTemplate template = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + body.data.token);
@@ -28,10 +23,9 @@ public class GoogleServiceImp implements GoogleService {
         ResponseEntity<ForJSON> result =
                 template.exchange("https://www.googleapis.com/oauth2/v1/userinfo?alt=json", HttpMethod.GET, entity, ForJSON.class);
         ForJSON json = result.getBody();
-        Users user = serviceUser.addUser(json);
+        result.getStatusCode();
 
-
-        return user;
+        return json;
 
     }
 

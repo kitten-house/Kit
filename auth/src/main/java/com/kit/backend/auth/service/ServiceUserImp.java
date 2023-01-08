@@ -1,21 +1,40 @@
 package com.kit.backend.auth.service;
 
 import com.kit.backend.auth.UsersDAO.UsersRepository;
-import com.kit.backend.auth.entity.Users;
+import com.kit.backend.auth.entity.User;
 import com.kit.backend.auth.model.ForJSON;
+import com.kit.backend.auth.model.LoginRequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 
 
 @Service
 public class ServiceUserImp implements ServiceUser {
-    private UsersRepository usersRepository;
+
+    private final GoogleService googleService;
+    private final UsersRepository usersRepository;
+
+    public ServiceUserImp(UsersRepository usersRepository, GoogleService googleService) {
+        this.usersRepository = usersRepository;
+        this.googleService = googleService;
+    }
+
     @Override
-    public Users addUser(ForJSON json) {
-        Users user = null;
+    public User getOrSave(LoginRequestBody body) {
+
+        ForJSON json =  googleService.googleRequest(body);
+        Optional<User> user1 = usersRepository.findByGoogleId(json.id);
+        if (user1.isPresent()) {
+            return user1.get();
+        }
+
+        User user = null;
         user.setName(json.name);
         user.setGoogleId(json.id);
         user.setAvatar(json.avatarUrl);
+
         usersRepository.save(user);
         return user;
     }

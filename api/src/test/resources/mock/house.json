@@ -1,0 +1,17 @@
+{
+  "id": 1,
+  "id_user": 12,
+  "property_type": "house",
+  "price": 100,
+  "house_area": 32.0,
+  "room": 4,
+  "amenities": 1,
+  "address": {
+    "id": 1,
+    "country": "Georgia",
+    "city": "Tbilisy",
+    "street": "Chavchavadze",
+    "house_number": "52",
+    "apartment": "140"
+  }
+}
