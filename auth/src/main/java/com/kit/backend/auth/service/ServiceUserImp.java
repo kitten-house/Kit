@@ -37,5 +37,4 @@ public class ServiceUserImp implements ServiceUser {
         usersRepository.save(user);
         return user;
     }
-
 }

@@ -1,6 +1,5 @@
 package com.kit.backend.auth.controller;
 
-
 import com.kit.backend.auth.entity.TokenType;
 import com.kit.backend.auth.entity.User;
 import com.kit.backend.auth.model.AuthResponseBody;
@@ -29,11 +28,6 @@ import java.util.logging.Logger;
 @SuppressWarnings("DuplicatedCode")
 @RestController
 public class AuthController {
-
-//    @Value("${com.kit.backend.auth.accessTokenCookieName}")
-//    private String accessTokenCookieName;
-//    @Value("${com.kit.backend.auth.refreshTokenCookieName}")
-//    private String refreshTokenCookieName;
 
     private final ServiceUser serviceUser;
     private final AuthServiceImp authServiceImp;
@@ -146,8 +140,12 @@ public class AuthController {
         user.setAvatar("ava");
         user.setGoogleId("2321");
 
-        return ResponseEntity.ok().body(user);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        return ResponseEntity.ok().headers(responseHeaders).body(user);
     }
+
+
 
     private Optional<String> validateToken(String refreshToken, String authorization) {
         String token;
