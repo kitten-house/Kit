@@ -1,6 +1,5 @@
 package com.kit.backend.auth.controller;
 
-
 import com.kit.backend.auth.entity.TokenType;
 import com.kit.backend.auth.entity.User;
 import com.kit.backend.auth.model.AuthResponseBody;
@@ -25,11 +24,6 @@ import java.util.Optional;
 @SuppressWarnings("DuplicatedCode")
 @RestController
 public class AuthController {
-
-//    @Value("${com.kit.backend.auth.accessTokenCookieName}")
-//    private String accessTokenCookieName;
-//    @Value("${com.kit.backend.auth.refreshTokenCookieName}")
-//    private String refreshTokenCookieName;
 
     private final ServiceUser serviceUser;
     private final AuthServiceImp authServiceImp;
@@ -98,13 +92,11 @@ public class AuthController {
 
     @PostMapping("/me")
     public ResponseEntity<User> getUser(
-        @Nullable
         @CookieValue(name = "refreshToken", required = false)
         String refreshToken,
-
-        @Nullable
         @RequestHeader(name = "Authorization", required = false)
-        String authorization)
+        String authorization
+    )
     {
         Optional<String> token = validateToken(refreshToken, authorization);
 
@@ -118,8 +110,12 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        return ResponseEntity.ok().body(optional.get());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        return ResponseEntity.ok().headers(responseHeaders).body(optional.get());
     }
+
+
 
     private Optional<String> validateToken(String refreshToken, String authorization) {
         String token;

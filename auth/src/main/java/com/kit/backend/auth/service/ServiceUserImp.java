@@ -4,7 +4,6 @@ import com.kit.backend.auth.UsersDAO.UsersRepository;
 import com.kit.backend.auth.entity.User;
 import com.kit.backend.auth.model.ForJSON;
 import com.kit.backend.auth.model.LoginRequestBody;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -38,5 +37,4 @@ public class ServiceUserImp implements ServiceUser {
         usersRepository.save(user);
         return user;
     }
-
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface HousesRepo extends JpaRepository<House, Integer> {
 
@@ -20,13 +21,14 @@ public interface HousesRepo extends JpaRepository<House, Integer> {
 
 
     @Query(value = "SELECT * FROM house WHERE house.id = :id", nativeQuery = true)
-    House findHouseBy(@Param("id") int id);
+    Optional<House> findBy(@Param("id") int id);
 
 //    // amenities.wi_fi = true AND amenities.heating = true
 //    @Query(value = "SELECT * FROM house INNER JOIN amenities ON house.amenities_id = amenities.id WHERE ?1", nativeQuery = true)
 //    House filter(String additional);
 
-    @Query(value = "SELECT house.id, price, country, city FROM house LEFT JOIN address a on house.id_address = a.id LIMIT 20", nativeQuery = true)
+    // house.id, price, country, city
+    @Query(value = "SELECT * FROM house LEFT JOIN address a on house.id_address = a.id LIMIT 20", nativeQuery = true)
     List <House> findFist20House();
 
 
