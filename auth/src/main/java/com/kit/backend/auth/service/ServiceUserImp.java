@@ -2,9 +2,8 @@ package com.kit.backend.auth.service;
 
 import com.kit.backend.auth.UsersDAO.UsersRepository;
 import com.kit.backend.auth.entity.User;
-import com.kit.backend.auth.model.ForJSON;
+import com.kit.backend.auth.model.GoogleAccount;
 import com.kit.backend.auth.model.LoginRequestBody;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,7 +23,7 @@ public class ServiceUserImp implements ServiceUser {
     @Override
     public User getOrSave(LoginRequestBody body) {
 
-        ForJSON json =  googleService.googleRequest(body);
+        GoogleAccount json =  googleService.googleRequest(body);
         Optional<User> user1 = usersRepository.findByGoogleId(json.id);
         if (user1.isPresent()) {
             return user1.get();
@@ -33,7 +32,7 @@ public class ServiceUserImp implements ServiceUser {
         User user = null;
         user.setName(json.name);
         user.setGoogleId(json.id);
-        user.setAvatar(json.avatarUrl);
+        user.setAvatar(json.picture);
 
         usersRepository.save(user);
         return user;

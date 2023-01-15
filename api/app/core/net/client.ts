@@ -82,14 +82,14 @@ export function sendAuthRequest<T = any, R = AxiosResponse<T>, D = T>(
     config: AxiosRequestConfig,
     mapper: (input: R) => D
 ): Subscribtion<D> {
-    return sendRequest("http://localhost:8080", config, mapper)
+    return sendRequest("http://192.168.0.11:8090", config, mapper)
 }
 
-export function sendApiRequest<T = any, R = AxiosResponse<T>, D = any>(
+export function sendApiRequest<T = any, R = AxiosResponse<T>, D = T>(
     config: AxiosRequestConfig,
     mapper: (input: R) => D
 ): Subscribtion<D> {
-    return sendRequest("http://localhost:8080", config, mapper)
+    return sendRequest("http://192.168.0.11:8080", config, mapper)
 }
 
 function sendRequest<T = any, R = AxiosResponse<T>, D = any>(
@@ -104,6 +104,7 @@ function sendRequest<T = any, R = AxiosResponse<T>, D = any>(
             cancelToken: sub.token,
             method: "POST",
             baseURL: baseUrl,
+            withCredentials: false, // TODO
             ...config
         }
     )

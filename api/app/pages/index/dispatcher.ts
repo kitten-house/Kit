@@ -1,5 +1,6 @@
 import {AuthService} from "../../api/login/AuthService";
 import UserStore from "../../store/user/UserStore";
+import {BaseDispatcher} from "../../core/net/BaseDispatcher";
 
 export class IndexDispatcher extends BaseDispatcher {
     private authService = new AuthService()

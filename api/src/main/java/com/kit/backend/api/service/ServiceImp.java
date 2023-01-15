@@ -20,7 +20,7 @@ public class ServiceImp implements Service {
     public House saveHouse(House house){
         return housesRepo.save(house);
     }
-    public House findHouseBy(int id){
+    public House findHouseBy(int id) {
         return housesRepo.findHouseBy(id);
     }
 

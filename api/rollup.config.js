@@ -19,11 +19,14 @@ export default {
         sourcemap: true
     },
     plugins: [
-        resolve(),
+        resolve({
+            browser: true,
+            dedupe: ['svelte']
+        }),
         commonjs(),
+        nodePolyfills(),
         typescript(),
         json(),
-        nodePolyfills(),
         replace({
             'process.env.NODE_ENV': production ? JSON.stringify( 'development' ) : JSON.stringify( 'development' )
         }),

@@ -43,8 +43,4 @@ public class ApiController {
     public List<House> findByUserId(int id) {
         return service.findByUserId(id);
     }
-
-    ;
-
-
 }

@@ -1,4 +1,4 @@
-import {sendAuthRequest, Subscribtion } from "../../core/client";
+import {sendApiRequest, sendAuthRequest, Subscribtion} from "../../core/net/client";
 
 interface AuthApi {
     login(token: string): Subscribtion<LoginResponse>
