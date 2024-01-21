@@ -53,6 +53,7 @@ public class User {
         this.avatar = avatar;
     }
 
+
     public User(long id, String name, String avatar, String googleId) {
         this.id = id;
         this.name = name;

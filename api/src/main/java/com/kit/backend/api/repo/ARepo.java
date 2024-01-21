@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface ARepo extends JpaRepository<Amenities, Integer> {
 
-    @Transactional
-    void insert() {
-
-    }
+//    @Transactional
+//    void insert() {
+//
+//    }
 }
